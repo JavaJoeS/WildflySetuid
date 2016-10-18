@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+  		<groupId>com.daggerpoint.master</groupId>
+  		<artifactId>WildflySharedModule</artifactId>
+  		<version>1.0</version>
+  		<relativePath>../../</relativePath>
+  </parent>
+  
+  <groupId>com.daggerpoint.native</groupId>
+  <artifactId>SharedLibrary</artifactId>
+  <version>1.0</version>
+  <name>NativeLibrary</name>
+  <packaging>so</packaging>
+  
+  	<build>
+  		<plugins>   
+            
+  			<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <version>1.0-alpha-8 </version>
+                <extensions>true</extensions>
+                <configuration>
+                	<javahOS>solaris</javahOS>
+                	<compilerProvider>generic-classic</compilerProvider>
+                    <compilerExecutable>g++</compilerExecutable>
+					<compilerStartOptions>
+                    	<compilerStartOption>-fPIC -Wall -m64</compilerStartOption>
+                    </compilerStartOptions>
+                    <linkerExecutable>g++</linkerExecutable>
+                    <sources>
+                        <source>
+                            <directory>
+                                ${basedir}/src/main/native/
+                            </directory>
+                            <fileNames>
+                            		<fileName>SharedDaggerpoint.cpp</fileName>
+                            </fileNames>
+                        </source>
+                    </sources>
+
+                    <linkerStartOptions>
+                    	<linkerStartOption>-fPIC</linkerStartOption>
+                        <linkerStartOption>-m64</linkerStartOption>
+                        <linkerStartOption>-I${basedir}/src/main/native/</linkerStartOption>
+                        <linkerStartOption>-shared</linkerStartOption>
+                    </linkerStartOptions>
+                    <linkerEndOptions>
+                    	<linkerEndOption>-lthread</linkerEndOption>
+                        <linkerEndOption>-lc</linkerEndOption>
+                        <linkerEndOption></linkerEndOption>
+                    </linkerEndOptions>
+                    
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>javah</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                        	<javahVerbose>true</javahVerbose>
+                            <javahOS>solaris</javahOS>
+                            <javahProvider>default</javahProvider>
+                            <javahOutputDirectory>${project.build.directory}/custom-javah</javahOutputDirectory>
+                            <workingDirectory>${basedir}</workingDirectory>
+                            <javahOutputFileName>SharedDaggerpoint.h</javahOutputFileName>
+                            <javahClassNames>
+                                <javahClassName>com.daggerpoint.share.SharedDaggerpoint</javahClassName>
+                            </javahClassNames>
+                        </configuration>
+                        <goals>
+                            <goal>javah</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+  		</plugins>
+  	</build>
+  	<dependencies>
+  			<dependency>
+  					<groupId>com.daggerpoint.share</groupId>
+  					<artifactId>SharedModule</artifactId>
+  					<version>1.0</version>
+  			</dependency>
+  	</dependencies>
+  
+  
+</project>
