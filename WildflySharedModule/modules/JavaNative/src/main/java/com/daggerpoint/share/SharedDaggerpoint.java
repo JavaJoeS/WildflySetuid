@@ -1,7 +1,6 @@
 package com.daggerpoint.share;
 
 public class SharedDaggerpoint {
-
 		static {
 			    System.loadLibrary("SharedLibrary");
 		}

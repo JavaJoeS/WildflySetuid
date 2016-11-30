@@ -27,7 +27,6 @@ SharedDaggerpoint daggerBuffer;
 int getFood() {
 
 		string path = "/export/apps/wildfly/wildfly-10.0.0.Final/domain/servers";
-		cout << "YES, ITS TIME to get some FOOD" << endl;
 		daggerPtr = &daggerBuffer;
 
 		daggerPtr->pwd = getpwnam("wildfly");
@@ -71,8 +70,7 @@ int SharedDaggerpoint::processEntity(struct dirent* entity, string incoming ) {
 		DIR *dPtr=NULL;
 		try {
 			dPtr = opendir(cstr);
-		} catch (const std::exception& e) {
-		}
+		} catch (const std::exception& e) {/** eat exception **/}
 		if ( dPtr == NULL) {
 			//cout << "processEntity ----   GOT FILE --  FILE TO change: " << fqdName << endl;
 			return 200;
